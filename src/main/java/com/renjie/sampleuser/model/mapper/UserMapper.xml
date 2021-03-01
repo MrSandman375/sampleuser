@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.renjie.sampleuser.model.mapper.UserMapper">
+  <resultMap id="UserResultMap" type="com.renjie.sampleuser.model.entity.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthdate" jdbcType="TIMESTAMP" property="birthdate" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <!--获取用户列表-->
+  <select id="getUser" resultMap="UserResultMap">
+    select id,mobile,sex,birthdate,address,email,create_time,update_time
+    from `user` where `state` = 1
+    <if test="mobile != null and mobile !=''">and mobile = #{mobile}</if>
+    <if test="email != null and email !=''">and email = #{email}</if>
+  </select>
+
+  <!--新增用户-->
+  <insert id="createUser" parameterType="java.util.Map">
+    insert into `user`(mobile,password,sex,birthdate,address,email,`state`,create_time,update_time)
+    values(#{mobile},#{password},#{sex},#{birthdate},#{address},#{email},#{state},#{createTime},#{updateTime})
+  </insert>
+
+  <!--根据id查询用户-->
+  <select id="queryUserById" resultMap="UserResultMap">
+    select id,password,mobile,sex,birthdate,address,email,create_time,update_time,`state`
+    from `user` where `state` = 1 and id = #{id}
+  </select>
+
+  <!--根据id更新用户信息-->
+  <update id="updateUser" parameterType="com.renjie.sampleuser.model.entity.User">
+    update `user` set
+                      password = #{password},
+                      sex = #{sex},
+                      birthdate = #{birthdate},
+                      address = #{address},
+                      email = #{email},
+                      `state` = #{state},
+                      create_time = #{createTime},
+                      update_time = #{updateTime}
+    where id = #{id}
+  </update>
+
+
+
+
+
+
+</mapper>
